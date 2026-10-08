@@ -1,62 +1,63 @@
-# Symulator Windy — System Wbudowany (SWB)
+# Elevator Simulator — Embedded Systems Project (SWB)
 
-Projekt zaliczeniowy z przedmiotu **Systemy Wbudowane (SWB)** — rozproszony system sterowania windą oparty na kilku mikrokontrolerach 8051, zaprojektowany w **Keil µVision** i zasymulowany w **Proteus (ISIS)**. Ocena: **5**.
+Coursework project for the **Embedded Systems (SWB)** course — a distributed elevator control system built on multiple **8052** microcontrollers, designed in **Keil µVision** and simulated in **Proteus (ISIS)**. Grade: **5** (highest).
 
-## Opis projektu
+## Project overview
 
-System symuluje działanie windy sterowanej kilkoma niezależnymi mikrokontrolerami, połączonymi wspólną magistralą komunikacyjną **RS485**. Użytkownik wybiera piętro za pomocą pinpada, a system odpowiednio steruje silnikami, wyświetla aktualne piętro oraz loguje wykonywane polecenia na wyświetlaczu LCD.
+The system simulates an elevator controlled by several independent microcontrollers connected over a shared **RS485** communication bus. The user selects a floor via a keypad, and the system drives the motors accordingly, displays the current floor, and logs executed commands on an LCD screen.
 
-### Architektura (mikrokontrolery)
+### Architecture (microcontrollers)
 
-Projekt składa się z czterech mikrokontrolerów 8052, z których każdy odpowiada za inny podzespół i komunikuje się z resztą systemu przez magistralę RS485 (konwertery U2/U4/U6/U9):
+The project consists of four 8052 microcontrollers, each responsible for a different subsystem and communicating with the rest of the system over the RS485 bus (transceivers U2/U4/U6/U9):
 
-| Mikrokontroler | Plik | Rola |
+| Microcontroller | File | Role |
 |---|---|---|
-| **U1** | `U1_Master.c` | Jednostka nadrzędna — odczyt pinpada, koordynacja całego systemu |
-| **U3** | `U3_7SEG.c` | Sterowanie wyświetlaczem segmentowym — pokazuje aktualne piętro windy |
-| **U5** | `U5_Motor.c` | Sterowanie silnikami (ruch windy) poprzez driver silników oraz sygnalizacją (żarówki/diody) |
-| **U8** | `U8_LCD.c` | Sterowanie wyświetlaczem LCD — wypisuje wykonywane polecenia/komunikaty systemu |
+| **U1** | `U1_Master.c` | Master unit — keypad input, overall system coordination |
+| **U3** | `U3_7SEG.c` | Seven-segment display driver — shows the elevator's current floor |
+| **U5** | `U5_Motor.c` | Motor control (elevator movement) via motor driver, plus indicator lights |
+| **U8** | `U8_LCD.c` | LCD driver — prints executed commands/system messages |
 
-### Pozostałe elementy makiety
+### Other components
 
-- **Pinpad** (klawiatura matrycowa 4×3) — wybór piętra / wprowadzanie poleceń
-- **Wyświetlacz segmentowy** — aktualne piętro windy
-- **Wyświetlacz LCD** — log poleceń/komunikatów systemu
-- **Silniki + sterownik (U7)** — napęd symulujący ruch kabiny windy
-- **Magistrala RS485/RS422** — komunikacja między mikrokontrolerami
+- **Keypad** (4×3 matrix) — floor selection / command input
+- **Seven-segment display** — current elevator floor
+- **LCD display** — log of commands/system messages
+- **Motors + driver (U7)** — drive simulating the elevator cabin's movement
+- **RS485/RS422 bus** — communication between microcontrollers
 
-## Środowisko i narzędzia
+## Environment and tools
 
-- **Keil µVision 4** — pisanie i kompilacja kodu mikrokontrolerów (C)
-- **Proteus (ISIS)** — projekt schematu i symulacja całego układu
-- Mikrokontroler: rodzina **8051** (np. AT89C52)
+- **Keil µVision 4** — writing and compiling microcontroller code (C)
+- **Proteus (ISIS)** — schematic design and full system simulation
+- Microcontroller: **8052** family (e.g. AT89C52)
 
-## Struktura repozytorium
+## Repository structure
 
 ```
 .
 ├── src/
-│   ├── U1_Master.c       # Jednostka nadrzędna / pinpad
-│   ├── U3_7SEG.c         # Wyświetlacz piętra
-│   ├── U5_Motor.c        # Sterowanie silnikami
-│   └── U8_LCD.c          # Wyświetlacz LCD / log poleceń
+│   ├── U1_Master.c       # Master unit / keypad
+│   ├── U3_7SEG.c         # Floor display
+│   ├── U5_Motor.c        # Motor control
+│   └── U8_LCD.c          # LCD display / command log
 ├── proteus/
-│   └── PROJ2.pdsprj      # Projekt schematu i symulacji Proteus
+│   └── PROJ2.pdsprj      # Proteus schematic and simulation project
 ├── keil/
-│   └── Zadanie_projektowe.uvproj   # Projekt µVision
+│   └── Zadanie_projektowe.uvproj   # µVision project
 ├── docs/
-│   └── schemat.png       # Zrzut ekranu schematu z Proteusa
+│   └── schemat.png       # Schematic screenshot from Proteus
 └── README.md
 ```
 
+## How to run the simulation
 
-## Jak uruchomić symulację
+1. Open `Zadanie_projektowe.uvproj` in **Keil µVision** and compile the project to a `.hex` file
+2. Open `PROJ2.pdsprj` in **Proteus**
+3. Load the compiled `.hex` file into the respective microcontrollers in the simulation
+4. Run the simulation — select a floor on the keypad and observe the elevator moving, the floor display updating, and the log on the LCD
 
-1. Otwórz `Zadanie_projektowe.uvproj` w **Keil µVision**, skompiluj projekt do pliku `.hex`
-2. Otwórz `PROJ2.pdsprj` w **Proteus**
-3. Wgraj skompilowany `.hex` do odpowiednich mikrokontrolerów w symulacji
-4. Uruchom symulację — wybierz piętro na pinpadzie i obserwuj ruch windy, zmianę piętra na wyświetlaczu oraz log na LCD
+## Author
 
-## Autor
 Szymon Trzaskowski
-Schemat do projektu został częściowo otrzymany do wykładowcy, Pana mgr inż. Marcina Golucha. Kody projektu oraz korekty schematu wykonane samodzielnie. Projekt obroniony na ocenę 5.
+
+The base schematic for this project was partially provided by the course instructor, mgr inż. Marcin Goluch. The project code and schematic corrections were done independently. The project was defended with a grade of 5 (highest possible).
